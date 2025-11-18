@@ -1,19 +1,214 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Acentuación gráfica</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acentuación gráfica - Programa interactivo</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .container { max-width: 600px; margin: auto; padding: 20px; }
-        button { padding: 10px; margin: 5px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b, #ffcc70, #4facfe, #00f2fe);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 28px;
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        
+        #question {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #34495e;
+        }
+        
+        #options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            z-index: 1;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+            transition: transform 0.3s ease;
+            transform: scaleX(0);
+            transform-origin: right;
+        }
+        
+        button:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        /* Estilos específicos para cada tipo de botón */
+        .btn-yes {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        
+        .btn-no {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .btn-grave {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .btn-aguda {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+        
+        .btn-restart {
+            background: linear-gradient(135deg, #f39c12, #d35400);
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff7e5f, #feb47b);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .step-indicator {
+            text-align: right;
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            #question {
+                font-size: 16px;
+                padding: 15px;
+            }
+            
+            button {
+                padding: 12px 20px;
+                min-width: 100px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Piensa en una palabra y este programa te dirá si se acentúa gráficamente o no.</h1>
+        <h1>Piensa en una palabra y te diré si se acentúa gráficamente</h1>
+        <div class="step-indicator">Paso <span id="step-count">1</span> de 5</div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
         <div id="question"></div>
         <div id="options"></div>
     </div>
+
     <script>
         let state = {
             step: 0,
@@ -28,46 +223,61 @@
             {
                 text: "¿Es una palabra del tipo adverbio terminado en \"mente\" o una palabra compuesta separada por guión?",
                 options: [
-                    { text: "Sí", value: 1 },
-                    { text: "No", value: 0 }
+                    { text: "Sí", value: 1, type: "btn-yes" },
+                    { text: "No", value: 0, type: "btn-no" }
                 ]
             },
             {
                 text: "¿Tiene una \"I\" o \"U\" tónica contigua a una vocal \"A\", \"E\" u \"O\"?",
                 condition: (state) => state.primera_opcion === 0,
                 options: [
-                    { text: "Sí", value: 1 },
-                    { text: "No", value: 0 }
+                    { text: "Sí", value: 1, type: "btn-yes" },
+                    { text: "No", value: 0, type: "btn-no" }
                 ]
             },
             {
                 text: "¿Es esdrújula?",
                 condition: (state) => state.primera_opcion === 0 && state.nhtt === 0,
                 options: [
-                    { text: "Sí", value: 1 },
-                    { text: "No", value: 0 }
+                    { text: "Sí", value: 1, type: "btn-yes" },
+                    { text: "No", value: 0, type: "btn-no" }
                 ]
             },
             {
                 text: "¿Es grave o aguda?",
                 condition: (state) => state.primera_opcion === 0 && state.nhtt === 0 && state.esdrujula === 0,
                 options: [
-                    { text: "Grave", value: 1 },
-                    { text: "Aguda", value: 0 }
+                    { text: "Grave", value: 1, type: "btn-grave" },
+                    { text: "Aguda", value: 0, type: "btn-aguda" }
                 ]
             },
             {
                 text: "¿Termina en vocal, N o S no agrupadas?",
                 condition: (state) => state.primera_opcion === 0 && state.nhtt === 0 && state.esdrujula === 0 && state.grave !== null,
                 options: [
-                    { text: "Sí", value: 1 },
-                    { text: "No", value: 0 }
+                    { text: "Sí", value: 1, type: "btn-yes" },
+                    { text: "No", value: 0, type: "btn-no" }
                 ]
             }
         ];
 
+        function updateProgress() {
+            const progress = document.getElementById('progress');
+            const stepCount = document.getElementById('step-count');
+            
+            // Calculamos el progreso basado en el paso actual
+            const totalSteps = questions.filter(q => !q.condition || q.condition(state)).length;
+            const currentStep = Math.min(state.step + 1, totalSteps);
+            const progressPercent = (currentStep / totalSteps) * 100;
+            
+            progress.style.width = `${progressPercent}%`;
+            stepCount.textContent = currentStep;
+        }
+
         function displayQuestion() {
             const currentQuestion = questions[state.step];
+            
+            // Si la pregunta tiene condición y no se cumple, saltamos a la siguiente
             if (currentQuestion.condition && !currentQuestion.condition(state)) {
                 state.step++;
                 displayQuestion();
@@ -77,14 +287,16 @@
             document.getElementById('question').innerHTML = `<p>${currentQuestion.text}</p>`;
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = '';
+            
             currentQuestion.options.forEach(option => {
                 const button = document.createElement('button');
                 button.textContent = option.text;
-                button.onclick = () => {
-                    handleAnswer(option.value);
-                };
+                button.className = option.type;
+                button.onclick = () => handleAnswer(option.value);
                 optionsDiv.appendChild(button);
             });
+            
+            updateProgress();
         }
 
         function handleAnswer(value) {
@@ -100,14 +312,14 @@
                 case 1:
                     state.nhtt = value;
                     if (value === 1) {
-                        showResult("Se escribe con acento en la vocal cerrada tónica");
+                        showResult("¡La palabra se escribe con acento en la vocal cerrada tónica!");
                         return;
                     }
                     break;
                 case 2:
                     state.esdrujula = value;
                     if (value === 1) {
-                        showResult("Se escribe con acento");
+                        showResult("¡La palabra se escribe con acento gráfico!");
                         return;
                     }
                     break;
@@ -118,15 +330,15 @@
                     state.terminacionnsvoc = value;
                     if (state.grave === 1) {
                         if (value === 0) {
-                            showResult("Se escribe con acento en la penúltima sílaba");
+                            showResult("¡La palabra se escribe con acento en la penúltima sílaba!");
                         } else {
-                            showResult("Se escribe sin acento");
+                            showResult("La palabra se escribe sin acento gráfico.");
                         }
                     } else if (state.grave === 0) {
                         if (value === 1) {
-                            showResult("Se escribe con acento en la última sílaba");
+                            showResult("¡La palabra se escribe con acento en la última sílaba!");
                         } else {
-                            showResult("Se escribe sin acento");
+                            showResult("La palabra se escribe sin acento gráfico.");
                         }
                     }
                     return;
@@ -136,11 +348,24 @@
         }
 
         function showResult(message) {
-            document.getElementById('question').innerHTML = `<p>${message}</p>`;
-            document.getElementById('options').innerHTML = '<button onclick="location.reload()">Reiniciar</button>';
+            document.getElementById('question').innerHTML = `<p style="text-align: center; font-size: 20px; font-weight: 600; color: #2c3e50;">${message}</p>`;
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            const restartButton = document.createElement('button');
+            restartButton.textContent = 'Probar otra palabra';
+            restartButton.className = 'btn-restart';
+            restartButton.onclick = () => location.reload();
+            
+            optionsDiv.appendChild(restartButton);
+            
+            // Actualizamos la barra de progreso al 100%
+            document.getElementById('progress').style.width = '100%';
+            document.getElementById('step-count').textContent = 'Completado';
         }
 
-        // Iniciar
+        // Iniciar la aplicación
         displayQuestion();
     </script>
 </body>
