@@ -200,7 +200,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Piensa en una palabra y te diré si se acentúa gráficamente</h1>
+        <h1>Piensa en una palabra y te diré si se acentúa gráficamente o no</h1>
         <div class="step-indicator">Paso <span id="step-count">1</span> de 5</div>
         <div class="progress-bar">
             <div class="progress" id="progress"></div>
@@ -312,14 +312,14 @@
                 case 1:
                     state.nhtt = value;
                     if (value === 1) {
-                        showResult("¡La palabra se escribe con acento en la vocal cerrada tónica!");
+                        showResult("La palabra se escribe con acento en la vocal cerrada tónica");
                         return;
                     }
                     break;
                 case 2:
                     state.esdrujula = value;
                     if (value === 1) {
-                        showResult("¡La palabra se escribe con acento gráfico!");
+                        showResult("La palabra se escribe con acento gráfico");
                         return;
                     }
                     break;
@@ -330,13 +330,13 @@
                     state.terminacionnsvoc = value;
                     if (state.grave === 1) {
                         if (value === 0) {
-                            showResult("¡La palabra se escribe con acento en la penúltima sílaba!");
+                            showResult("La palabra se escribe con acento en la penúltima sílaba");
                         } else {
                             showResult("La palabra se escribe sin acento gráfico.");
                         }
                     } else if (state.grave === 0) {
                         if (value === 1) {
-                            showResult("¡La palabra se escribe con acento en la última sílaba!");
+                            showResult("La palabra se escribe con acento en la última sílaba");
                         } else {
                             showResult("La palabra se escribe sin acento gráfico.");
                         }
