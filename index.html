@@ -2,67 +2,192 @@
 <html>
 <head>
     <title>Programa de acentuación</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
+            color: #333;
         }
+        
+        .container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            margin: 20px auto;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+        
+        #presentacion {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
         #question {
-            font-size: 18px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        #result {
-            margin-top: 20px;
+            font-size: 1.4rem;
+            margin: 30px 0;
             padding: 15px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            font-size: 16px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            line-height: 1.6;
+            font-weight: 500;
+            color: #2c3e50;
         }
+        
+        #result {
+            margin: 30px 0;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1565c0;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
         .btn-container {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 20px;
+            margin: 25px 0;
+            justify-content: center;
+            flex-wrap: wrap;
         }
+        
         .btn {
-            padding: 12px 25px;
-            font-size: 16px;
+            padding: 14px 30px;
+            font-size: 1.1rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-        }
-        .si-btn {
-            background-color: #a8e6cf; /* Verde suave */
-            color: #1a3c34;
-        }
-        .no-btn {
-            background-color: #ffccd5; /* Rojo suave */
-            color: #5d2a42;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
+            font-weight: 600;
+            min-width: 130px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+        
+        .si-btn {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+        }
+        
+        .no-btn {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+        }
+        
+        .reiniciar-btn {
+            background: linear-gradient(to right, #2193b0, #6dd5ed);
+            color: white;
+            margin: 20px auto;
+            display: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
         .btn:active {
             transform: translateY(0);
+        }
+        
+        .footer {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+            width: 100%;
+        }
+        
+        .footer p {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            background: linear-gradient(transparent 70%, rgba(255, 255, 0, 0.4) 70%);
+            padding: 0 3px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            #presentacion, #question {
+                font-size: 1.2rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+                min-width: 110px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="question"></div>
-    <div class="btn-container">
-        <button id="si" class="btn si-btn">Sí</button>
-        <button id="no" class="btn no-btn">No</button>
+    <div class="container">
+        <h1>Acentuación Gráfica en Español</h1>
+        <div id="presentacion">Piensa una palabra y este programa te dirá si se escribe con o sin acento gráfico.</div>
+        
+        <div id="question"></div>
+        
+        <div class="btn-container">
+            <button id="si" class="btn si-btn">Sí</button>
+            <button id="no" class="btn no-btn">No</button>
+        </div>
+        
+        <div id="result"></div>
+        
+        <button id="reiniciar" class="btn reiniciar-btn">Probar otra vez</button>
     </div>
-    <div id="result"></div>
+    
+    <div class="footer">
+        <p>Creado por Domingo Román M. en C, corregido por DeepSeek 3.1 y traducido a JavaScript también por DeepSeek.</p>
+    </div>
 
     <script>
         const questionDiv = document.getElementById('question');
         const siBtn = document.getElementById('si');
         const noBtn = document.getElementById('no');
         const resultDiv = document.getElementById('result');
+        const reiniciarBtn = document.getElementById('reiniciar');
+        const presentacionDiv = document.getElementById('presentacion');
 
         let estado = 0;
         let esGrave;
@@ -70,21 +195,22 @@
         function mostrarPregunta(pregunta) {
             questionDiv.innerHTML = pregunta;
             resultDiv.innerHTML = '';
+            reiniciarBtn.style.display = 'none';
         }
 
         function mostrarResultado(resultado) {
-            resultDiv.innerHTML = resultado;
-            // Reiniciar después de mostrar el resultado
-            setTimeout(() => {
-                estado = 0;
-                iniciar();
-            }, 3000);
+            resultDiv.innerHTML = `<span class="highlight">${resultado}</span>`;
+            siBtn.parentElement.style.display = 'none';
+            reiniciarBtn.style.display = 'block';
         }
 
         function iniciar() {
+            siBtn.parentElement.style.display = 'flex';
+            reiniciarBtn.style.display = 'none';
+            
             switch (estado) {
                 case 0:
-                    mostrarPregunta("¿Es una palabra del tipo adverbio terminado en mente o una palabra compuesta separada por guión?");
+                    mostrarPregunta("¿Es una palabra del tipo adverbio terminado en <i>mente</i> o una palabra compuesta separada por guión?");
                     break;
                 case 1:
                     mostrarPregunta("¿Tiene una \"I\" o \"U\" tónica contigua a una vocal \"A\", \"E\" u \"O\"?");
@@ -93,10 +219,15 @@
                     mostrarPregunta("¿Es esdrújula?");
                     break;
                 case 3:
-                    mostrarPregunta("¿Es grave (1) o aguda (0)?");
+                    mostrarPregunta("¿Es grave o aguda?");
+                    siBtn.textContent = "Grave";
+                    noBtn.textContent = "Aguda";
                     break;
                 case 4:
                     mostrarPregunta("¿Termina en vocal, N o S?");
+                    // Restaurar textos de botones
+                    siBtn.textContent = "Sí";
+                    noBtn.textContent = "No";
                     break;
             }
         }
@@ -155,6 +286,11 @@
                     }
                     break;
             }
+        });
+
+        reiniciarBtn.addEventListener('click', () => {
+            estado = 0;
+            iniciar();
         });
 
         // Iniciar el flujo
