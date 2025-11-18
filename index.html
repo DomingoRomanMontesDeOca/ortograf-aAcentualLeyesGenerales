@@ -162,7 +162,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Acentuación Gráfica en Español</h1>
+        <h1>Acentuación gráfica en español</h1>
         <div id="presentacion">Piensa una palabra y este programa te dirá si se escribe con o sin acento gráfico.</div>
         
         <div id="question"></div>
@@ -178,7 +178,7 @@
     </div>
     
     <div class="footer">
-        <p>Creado por Domingo Román M. en C, corregido por DeepSeek 3.1 y traducido a JavaScript también por DeepSeek.</p>
+        <p>Creado por Domingo Román M. en lenguaje C corregido por DeepSeek 3.1. Traducido a JavaScript también por DeepSeek.</p>
     </div>
 
     <script>
@@ -224,7 +224,7 @@
                     noBtn.textContent = "Aguda";
                     break;
                 case 4:
-                    mostrarPregunta("¿Termina en vocal, N o S?");
+                    mostrarPregunta("¿Termina en vocal, \"N\" o \"S\" no agrupadas?");
                     // Restaurar textos de botones
                     siBtn.textContent = "Sí";
                     noBtn.textContent = "No";
@@ -238,10 +238,10 @@
                     mostrarResultado("Descomponga la palabra en los dos constituyentes y aplique este algoritmo a cada uno de ellos.");
                     break;
                 case 1:
-                    mostrarResultado("¡Se escribe con acento en la vocal cerrada tónica!");
+                    mostrarResultado("La palabra se escribe con acento en la vocal cerrada tónica");
                     break;
                 case 2:
-                    mostrarResultado("¡Se escribe con acento!");
+                    mostrarResultado("La palabra se escribe con acento");
                     break;
                 case 3:
                     esGrave = true;
