@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Acentuación Gráfica</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        button { padding: 10px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¿Se acentúa gráficamente?</h1>
+        <div id="question"></div>
+        <div id="options"></div>
+    </div>
+    <script>
+        let state = {
+            step: 0,
+            primera_opcion: null,
+            nhtt: null,
+            esdrujula: null,
+            grave: null,
+            terminacionnsvoc: null
+        };
+
+        const questions = [
+            {
+                text: "¿Es una palabra del tipo adverbio terminado en mente o una palabra compuesta separada por guión?",
+                options: [
+                    { text: "Sí", value: 1 },
+                    { text: "No", value: 0 }
+                ]
+            },
+            {
+                text: "¿Tiene una \"I\" o \"U\" tónica contigua a una vocal \"A\", \"E\" u \"O\"?",
+                condition: (state) => state.primera_opcion === 0,
+                options: [
+                    { text: "Sí", value: 1 },
+                    { text: "No", value: 0 }
+                ]
+            },
+            {
+                text: "¿Es esdrújula?",
+                condition: (state) => state.primera_opcion === 0 && state.nhtt === 0,
+                options: [
+                    { text: "Sí", value: 1 },
+                    { text: "No", value: 0 }
+                ]
+            },
+            {
+                text: "¿Es grave o aguda?",
+                condition: (state) => state.primera_opcion === 0 && state.nhtt === 0 && state.esdrujula === 0,
+                options: [
+                    { text: "Grave", value: 1 },
+                    { text: "Aguda", value: 0 }
+                ]
+            },
+            {
+                text: "¿Termina en vocal, N o S no agrupadas?",
+                condition: (state) => state.primera_opcion === 0 && state.nhtt === 0 && state.esdrujula === 0 && state.grave !== null,
+                options: [
+                    { text: "Sí", value: 1 },
+                    { text: "No", value: 0 }
+                ]
+            }
+        ];
+
+        function displayQuestion() {
+            const currentQuestion = questions[state.step];
+            if (currentQuestion.condition && !currentQuestion.condition(state)) {
+                state.step++;
+                displayQuestion();
+                return;
+            }
+
+            document.getElementById('question').innerHTML = `<p>${currentQuestion.text}</p>`;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option.text;
+                button.onclick = () => {
+                    handleAnswer(option.value);
+                };
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function handleAnswer(value) {
+            const currentStep = state.step;
+            switch (currentStep) {
+                case 0:
+                    state.primera_opcion = value;
+                    if (value === 1) {
+                        showResult("Descomponga la palabra en los dos constituyentes y aplique este algoritmo a cada uno de ellos.");
+                        return;
+                    }
+                    break;
+                case 1:
+                    state.nhtt = value;
+                    if (value === 1) {
+                        showResult("¡Se escribe con acento en la vocal cerrada tónica!");
+                        return;
+                    }
+                    break;
+                case 2:
+                    state.esdrujula = value;
+                    if (value === 1) {
+                        showResult("¡Se escribe con acento!");
+                        return;
+                    }
+                    break;
+                case 3:
+                    state.grave = value;
+                    break;
+                case 4:
+                    state.terminacionnsvoc = value;
+                    if (state.grave === 1) {
+                        if (value === 0) {
+                            showResult("¡Con acento! (penúltima sílaba)");
+                        } else {
+                            showResult("Sin acento");
+                        }
+                    } else if (state.grave === 0) {
+                        if (value === 1) {
+                            showResult("¡Con acento! (última sílaba)");
+                        } else {
+                            showResult("Sin acento");
+                        }
+                    }
+                    return;
+            }
+            state.step++;
+            displayQuestion();
+        }
+
+        function showResult(message) {
+            document.getElementById('question').innerHTML = `<p>${message}</p>`;
+            document.getElementById('options').innerHTML = '<button onclick="location.reload()">Reiniciar</button>';
+        }
+
+        // Iniciar
+        displayQuestion();
+    </script>
+</body>
+</html>
