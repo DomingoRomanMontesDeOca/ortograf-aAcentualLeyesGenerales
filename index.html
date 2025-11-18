@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Acentuación Gráfica</title>
+    <title>Acentuación gráfica</title>
     <style>
         body { font-family: Arial, sans-serif; }
         .container { max-width: 600px; margin: auto; padding: 20px; }
@@ -26,7 +26,7 @@
 
         const questions = [
             {
-                text: "¿Es una palabra del tipo adverbio terminado en mente o una palabra compuesta separada por guión?",
+                text: "¿Es una palabra del tipo adverbio terminado en \"mente\" o una palabra compuesta separada por guión?",
                 options: [
                     { text: "Sí", value: 1 },
                     { text: "No", value: 0 }
@@ -93,21 +93,21 @@
                 case 0:
                     state.primera_opcion = value;
                     if (value === 1) {
-                        showResult("Descomponga la palabra en los dos constituyentes y aplique este algoritmo a cada uno de ellos.");
+                        showResult("Deberás descomponer la palabra en los constituyentes y aplicar este algoritmo a cada uno de ellos.");
                         return;
                     }
                     break;
                 case 1:
                     state.nhtt = value;
                     if (value === 1) {
-                        showResult("¡Se escribe con acento en la vocal cerrada tónica!");
+                        showResult("Se escribe con acento en la vocal cerrada tónica");
                         return;
                     }
                     break;
                 case 2:
                     state.esdrujula = value;
                     if (value === 1) {
-                        showResult("¡Se escribe con acento!");
+                        showResult("Se escribe con acento");
                         return;
                     }
                     break;
@@ -118,15 +118,15 @@
                     state.terminacionnsvoc = value;
                     if (state.grave === 1) {
                         if (value === 0) {
-                            showResult("¡Con acento! (penúltima sílaba)");
+                            showResult("Se escribe con acento en la penúltima sílaba");
                         } else {
-                            showResult("Sin acento");
+                            showResult("Se escribe sin acento");
                         }
                     } else if (state.grave === 0) {
                         if (value === 1) {
-                            showResult("¡Con acento! (última sílaba)");
+                            showResult("Se escribe con acento en la última sílaba");
                         } else {
-                            showResult("Sin acento");
+                            showResult("Se escribe sin acento");
                         }
                     }
                     return;
